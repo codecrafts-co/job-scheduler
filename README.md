@@ -1,24 +1,21 @@
 
-# Custom Job Scheduler
+# @code-crafts/job-scheduler
 
-A simple and effective job scheduling module for Node.js, designed to manage and execute tasks based on cron-like schedules.
+A simple and effective job scheduling module for Node.js, designed to manage and execute tasks based on cron-like schedules. This module utilizes `node-schedule` for precise timing and flexibility, making it ideal for applications that require specific timing tasks.
 
 ## Features
 
-- Schedule tasks to run at specific times or intervals using cron syntax.
-- Dynamically add and cancel scheduled jobs.
-- Invoke jobs manually at any time.
-- Utilize node-schedule for precise timing and flexibility.
+- **Cron-like Scheduling:** Schedule tasks to run at specific times or intervals using cron syntax.
+- **Dynamic Job Management:** Dynamically add, cancel, and invoke scheduled jobs.
+- **Graceful Shutdown:** Includes a method to gracefully shut down all scheduled jobs, ensuring no tasks are left hanging.
 
 ## Installation
 
-Ensure you have Node.js installed on your system, then run:
+Install the package using npm:
 
 ```bash
-npm install node-schedule
+npm install @code-crafts/job-scheduler
 ```
-
-Include this custom scheduler in your project by importing the `JobScheduler` class from its location in your project files.
 
 ## Usage
 
@@ -27,20 +24,24 @@ Include this custom scheduler in your project by importing the `JobScheduler` cl
 #### Create a Scheduler Instance
 
 ```javascript
-import { JobScheduler } from '@codecrafts/scheduler'; // Adjust the path as necessary
+import { JobScheduler } from '@code-crafts/job-scheduler';
 
 const jobScheduler = new JobScheduler();
 ```
 
 #### Schedule Jobs
 
+Schedule a job to run every 10 seconds:
+
 ```javascript
-// Schedule a job to run every 10 seconds
 jobScheduler.schedule('test', '*/10 * * * * *', () => {
     console.log('Job test called');
 });
+```
 
-// Schedule another job to run every 5 seconds
+Schedule another job to run every 5 seconds:
+
+```javascript
 jobScheduler.schedule('test2', '*/5 * * * * *', () => {
     console.log('Job test2 called');
 });
@@ -49,7 +50,6 @@ jobScheduler.schedule('test2', '*/5 * * * * *', () => {
 #### Manually Invoke a Job
 
 ```javascript
-// Invoke the job 'test' manually after 1 second
 setTimeout(() => {
     jobScheduler.invoke('test');
 }, 1000);
@@ -58,46 +58,49 @@ setTimeout(() => {
 #### Cancel a Job
 
 ```javascript
-// Cancel the job 'test2' after 6 seconds
 setTimeout(() => {
     jobScheduler.cancel('test2');
 }, 6000);
 ```
 
+#### Destroy the Scheduler
+
+```javascript
+jobScheduler.destroy();
+```
+
 ### API
 
-#### `schedule(jobName: string, spec: string, cb: Function)`
-
-Schedules a new job.
-
-- **jobName:** Unique identifier for the job.
-- **spec:** Cron-like schedule string (e.g., '*/5 * * * * *' to run every 5 seconds).
-- **cb:** Callback function to run each time the job is triggered.
-
-#### `cancel(jobName: string)`
-
-Cancels a scheduled job.
-
-- **jobName:** Unique identifier for the job to be cancelled.
-
-#### `invoke(jobName: string)`
-
-Manually triggers a scheduled job.
-
-- **jobName:** Unique identifier for the job to invoke.
+- **schedule(jobName: string, spec: string, cb: Function)**: Schedules a new job.
+- **cancel(jobName: string)**: Cancels a scheduled job.
+- **invoke(jobName: string)**: Manually triggers a scheduled job.
+- **destroy()**: Gracefully shuts down all scheduled jobs and clears the job map.
 
 ## Examples
 
+Here's a complete example of setting up the scheduler, scheduling jobs, and then cleaning up:
+
 ```javascript
-// Creating an instance of the scheduler
 const scheduler = new JobScheduler();
 
-// Scheduling a simple job to run every minute
 scheduler.schedule('minuteJob', '0 * * * * *', () => {
     console.log('This job runs every minute.');
 });
 
-// Cancel and manually trigger jobs as demonstrated above
+setTimeout(() => {
+    scheduler.invoke('minuteJob');
+}, 5000);
+
+setTimeout(() => {
+    scheduler.cancel('minuteJob');
+    scheduler.destroy();
+}, 10000);
 ```
 
-This job scheduler offers a powerful and straightforward way to handle repetitive tasks in Node.js applications, providing flexibility and control over when jobs are executed.
+## Repository
+
+Find the source code and contribute on [GitHub](https://github.com/codecrafts-co/job-scheduler).
+
+## License
+
+This project is licensed under the ISC License - see the LICENSE file for details.
