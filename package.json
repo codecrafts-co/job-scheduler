@@ -1,0 +1,42 @@
+{
+    "name": "@code-crafts/job-scheduler",
+    "version": "1.0.0",
+    "description": "",
+    "author": "Khan Cirhan",
+    "types": "build/src/index.d.ts",
+    "files": [
+        "*.md",
+        "build"
+    ],
+    "exports": {
+        ".": "./build/src/index.js"
+    },
+    "scripts": {
+        "dev": "nodemon playground.ts",
+        "build": "npx tsc --p ./tsconfig.build.json",
+        "prepublishOnly": "npm run build",
+        "npmPublish": "npm publish --access public"
+    },
+    "keywords": [
+        "nodejs",
+        "job scheduler",
+        "task scheduler",
+        "cron",
+        "node-schedule"
+    ],
+    "license": "ISC",
+    "repository": {
+        "type": "git",
+        "url": "https://github.com/codecrafts-co/job-scheduler.git"
+    },
+    "devDependencies": {
+        "@types/node": "^20.12.12",
+        "@types/node-schedule": "^2.1.7",
+        "nodemon": "^3.1.4",
+        "ts-node": "^10.9.2",
+        "typescript": "^5.4.5"
+    },
+    "dependencies": {
+        "node-schedule": "^2.1.1"
+    }
+}
