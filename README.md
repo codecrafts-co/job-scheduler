@@ -1,11 +1,10 @@
 
-# @code-crafts/job-scheduler
+# @hyperflake/job-scheduler
 
 A simple and effective job scheduling module for Node.js, designed to manage and execute tasks based on cron-like schedules. This module utilizes `node-schedule` for precise timing and flexibility, making it ideal for applications that require specific timing tasks.
 
 ## Features
 
-- **Cron-like Scheduling:** Schedule tasks to run at specific times or intervals using cron syntax.
 - **Dynamic Job Management:** Dynamically add, cancel, and invoke scheduled jobs.
 - **Graceful Shutdown:** Includes a method to gracefully shut down all scheduled jobs, ensuring no tasks are left hanging.
 
@@ -14,7 +13,7 @@ A simple and effective job scheduling module for Node.js, designed to manage and
 Install the package using npm:
 
 ```bash
-npm install @code-crafts/job-scheduler
+npm install @hyperflake/job-scheduler
 ```
 
 ## Usage
@@ -24,7 +23,7 @@ npm install @code-crafts/job-scheduler
 #### Create a Scheduler Instance
 
 ```javascript
-import { JobScheduler } from '@code-crafts/job-scheduler';
+import { JobScheduler } from '@hyperflake/job-scheduler';
 
 const jobScheduler = new JobScheduler();
 ```
@@ -34,15 +33,15 @@ const jobScheduler = new JobScheduler();
 Schedule a job to run every 10 seconds:
 
 ```javascript
-jobScheduler.schedule('test', '*/10 * * * * *', () => {
+jobScheduler.schedule('test', { interval: 10, unit: 'seconds' }, () => {
     console.log('Job test called');
 });
 ```
 
-Schedule another job to run every 5 seconds:
+Schedule another job to run every 5 minutes:
 
 ```javascript
-jobScheduler.schedule('test2', '*/5 * * * * *', () => {
+jobScheduler.schedule('test2', { interval: 10, unit: 'minutes' }, () => {
     console.log('Job test2 called');
 });
 ```
@@ -71,7 +70,7 @@ jobScheduler.destroy();
 
 ### API
 
-- **schedule(jobName: string, spec: string, cb: Function)**: Schedules a new job.
+- **schedule(jobName: string, timeout: { interval: number; unit: Unit }, cb: Function)**: Schedules a new job.
 - **cancel(jobName: string)**: Cancels a scheduled job.
 - **invoke(jobName: string)**: Manually triggers a scheduled job.
 - **destroy()**: Gracefully shuts down all scheduled jobs and clears the job map.
@@ -83,7 +82,7 @@ Here's a complete example of setting up the scheduler, scheduling jobs, and then
 ```javascript
 const scheduler = new JobScheduler();
 
-scheduler.schedule('minuteJob', '0 * * * * *', () => {
+scheduler.schedule('minuteJob', { interval: 1, unit: 'minutes' }, () => {
     console.log('This job runs every minute.');
 });
 

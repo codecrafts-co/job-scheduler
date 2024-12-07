@@ -1,6 +1,6 @@
 {
-    "name": "@code-crafts/job-scheduler",
-    "version": "1.0.0",
+    "name": "@hyperflake/job-scheduler",
+    "version": "2.0.0",
     "description": "",
     "author": "Khan Cirhan",
     "types": "build/src/index.d.ts",
@@ -31,12 +31,8 @@
     },
     "devDependencies": {
         "@types/node": "^20.12.12",
-        "@types/node-schedule": "^2.1.7",
         "nodemon": "^3.1.4",
         "ts-node": "^10.9.2",
         "typescript": "^5.4.5"
-    },
-    "dependencies": {
-        "node-schedule": "^2.1.1"
     }
 }
